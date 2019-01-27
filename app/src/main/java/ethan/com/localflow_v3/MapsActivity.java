@@ -3,6 +3,8 @@ package ethan.com.localflow_v3;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -51,12 +53,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
+            LatLng myLatLng = aa
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
 
         } else {
             // Show rationale and request permission.
 
             LatLng bozeman = new LatLng(45.668993, -111.048728);
-            mMap.addMarker(new MarkerOptions().position(bozeman).title("Marker in Bozeman?"));
+            mMap.addMarker(new MarkerOptions().position(bozeman).title("Marker in Bozeman"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(bozeman));
         }
 
@@ -65,7 +69,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
     @Override
     public void onMyLocationClick(Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Current location:"
+                + "\nLatitude: " + location.getLatitude()
+                + "\nLongitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
