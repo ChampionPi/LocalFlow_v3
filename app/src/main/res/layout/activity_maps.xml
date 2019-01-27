@@ -31,6 +31,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_begin_draw"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:text="Begin Drawing"-->
+            <!--/>-->
     </FrameLayout>
 
 </FrameLayout>

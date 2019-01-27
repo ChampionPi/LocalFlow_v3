@@ -1,7 +1,9 @@
 package ethan.com.localflow_v3;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
@@ -18,19 +20,30 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.util.LinkedList;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback, View.OnClickListener {
+        OnMapReadyCallback {
 
     double latitude, longitude;
 
     private GoogleMap mMap;
     Boolean Is_MAP_Moveable = true; // to detect map is movable
+    Projection projection;
+    FrameLayout fram_map;
+    Button btn_draw_State;
+    static LinkedList<LatLng> val = new LinkedList<>();
+    //Button btn_begin_draw;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,18 +53,78 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        FrameLayout fram_map = (FrameLayout) findViewById(R.id.fram_map);
-        Button btn_draw_State = (Button) findViewById(R.id.btn_draw_State);
+        fram_map = (FrameLayout) findViewById(R.id.fram_map);
+        btn_draw_State = (Button) findViewById(R.id.btn_draw_State);
 
-        btn_draw_State.setOnClickListener(MapsActivity.this);
+        btn_draw_State.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Is_MAP_Moveable = !Is_MAP_Moveable;
+                if (Is_MAP_Moveable == false) {
+                    fram_map.setOnTouchListener(new View.OnTouchListener() {     @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            float x = event.getX();
+                            float y = event.getY();
 
+                            int x_co = Math.round(x);
+                            int y_co = Math.round(y);
+
+                            projection = mMap.getProjection();
+                            Point x_y_points = new Point(x_co, y_co);
+
+                            LatLng latLng = mMap.getProjection().fromScreenLocation(x_y_points);
+                            latitude = latLng.latitude;
+                            longitude = latLng.longitude;
+
+                        int eventaction = event.getAction();
+                            switch (eventaction) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // finger touches the screen
+                                    val.add(latLng);
+                                    break;
+                                case MotionEvent.ACTION_MOVE:
+                                    // finger moves on the screen
+                                    val.add(latLng);
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                    // finger leaves the screen
+                                    System.out.print("Finger Up");
+                                    Draw_Map(val);
+                                    break;
+                            }
+                            return Is_MAP_Moveable;
+                        }
+                    });
+                }
+                else {
+//                    fram_map.removeAllViews();
+                    while(!val.isEmpty()){val.removeFirst();};
+                }
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(this, "clicked a button", Toast.LENGTH_LONG).show();
-        Is_MAP_Moveable = !Is_MAP_Moveable;
+    public void Draw_Map(LinkedList<LatLng> vals) {
+        for (LatLng ll : vals){System.out.printf("Lat: %f\nLong: %f\n",ll.latitude,ll.longitude);};
+        PolygonOptions rectOptions;
+        rectOptions = new PolygonOptions();
+        rectOptions.addAll(vals);
+//        while (!vals.isEmpty()) {
+//            LatLng first = vals.getFirst();
+//            rectOptions.add(first);
+//            vals.remove(first);
+//        }
+        rectOptions.strokeColor(Color.BLUE);
+        rectOptions.strokeWidth(7);
+        rectOptions.fillColor(Color.CYAN);
+        rectOptions.visible(true);
+        if (!vals.isEmpty()){
+            Polygon polygon = mMap.addPolygon(rectOptions);
+            polygon.setVisible(true);
+        }
+        while(!vals.isEmpty()){vals.removeFirst();};
     }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
