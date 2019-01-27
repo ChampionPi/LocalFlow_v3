@@ -69,9 +69,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         Toast.makeText(this, "Current location:"
                 + "\nLatitude: " + location.getLatitude()
                 + "\nLongitude:" + location.getLongitude(), Toast.LENGTH_LONG).show();
-
-        LatLng myLatLng = new LatLng(location.getLatitude(),location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
     }
 
     @Override
