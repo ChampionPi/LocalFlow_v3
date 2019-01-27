@@ -1,5 +1,6 @@
 package ethan.com.localflow_v3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,8 +23,16 @@ public class TriggerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Add a trigger", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                launchMapActivity();
             }
         });
+    }
+
+    private void launchMapActivity() {
+
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
 
 }
