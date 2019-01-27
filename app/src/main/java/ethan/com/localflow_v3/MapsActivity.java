@@ -53,8 +53,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.setMyLocationEnabled(true);
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
-            LatLng myLatLng = aa
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
+//            LatLng myLatLng;
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
 
         } else {
             // Show rationale and request permission.
