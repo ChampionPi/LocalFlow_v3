@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">LocalFlow_v3</string>
     <string name="title_home">Home</string>
+    <string name="title_latitude">Latitude: </string>
+    <string name="title_longitude">Longitude: </string>
     <string name="title_playlists">Playlists</string>
     <string name="title_triggers">Triggers</string>
     <string name="title_activity_trigger">TriggerActivity</string>

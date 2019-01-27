@@ -12,6 +12,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    private TextView mLatitudeTextView;
+    private TextView mLongitudeTextView;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        mLatitudeTextView = (TextView) findViewById((R.id.latitude_textview));
+        mLongitudeTextView = (TextView) findViewById((R.id.longitude_textview));
+
     }
 
     private void launchTriggerActivity() {
