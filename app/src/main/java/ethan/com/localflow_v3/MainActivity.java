@@ -1,5 +1,6 @@
 package ethan.com.localflow_v3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_triggers:
                     mTextMessage.setText(R.string.title_triggers);
+                    launchTriggerActivity();
                     return true;
             }
             return false;
@@ -41,4 +43,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    private void launchTriggerActivity() {
+
+        Intent activityIntent = new Intent(this, TriggerActivity.class);
+        startActivity(activityIntent);
+    }
 }
