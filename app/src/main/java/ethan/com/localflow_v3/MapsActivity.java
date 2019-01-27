@@ -8,6 +8,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +26,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
 
 
     private GoogleMap mMap;
+//    FrameLayout fram_map = (FrameLayout) findViewById(R.id.fram_map);
+//    Button btn_draw_State = (Button) findViewById(R.id.btn_draw_State);
+//    Boolean Is_MAP_Moveable = false; // to detect map is movable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +39,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -61,6 +66,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.moveCamera(CameraUpdateFactory.newLatLng(bozeman));
         }
 
+//        btn_draw_State.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Is_MAP_Moveable = !Is_MAP_Moveable;
+//            }
+//
+//        });
 
     }
 
