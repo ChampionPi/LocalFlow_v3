@@ -2,12 +2,14 @@ package ethan.com.localflow_v3;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -22,13 +24,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback, View.OnClickListener {
 
+    double latitude, longitude;
 
     private GoogleMap mMap;
-//    FrameLayout fram_map = (FrameLayout) findViewById(R.id.fram_map);
-//    Button btn_draw_State = (Button) findViewById(R.id.btn_draw_State);
-//    Boolean Is_MAP_Moveable = false; // to detect map is movable
+    Boolean Is_MAP_Moveable = true; // to detect map is movable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,19 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FrameLayout fram_map = (FrameLayout) findViewById(R.id.fram_map);
+        Button btn_draw_State = (Button) findViewById(R.id.btn_draw_State);
+
+        btn_draw_State.setOnClickListener(MapsActivity.this);
+
     }
 
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(this, "clicked a button", Toast.LENGTH_LONG).show();
+        Is_MAP_Moveable = !Is_MAP_Moveable;
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -58,6 +70,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
 
+            LatLng mLatLng = new LatLng(latitude,longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLng));
+
         } else {
             // Show rationale and request permission.
 
@@ -65,14 +80,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMyLoca
             mMap.addMarker(new MarkerOptions().position(bozeman).title("Marker in Bozeman"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(bozeman));
         }
-
-//        btn_draw_State.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Is_MAP_Moveable = !Is_MAP_Moveable;
-//            }
-//
-//        });
 
     }
 
